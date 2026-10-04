@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shop | LUXE Hair</title>
+    <link rel="stylesheet" href="css/shop.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+  </head>
+  <body>
+    <!-- ===================== HEADER / NAV ===================== -->
+    <header class="site-header">
+      <div class="nav-container">
+        <a href="index.html" class="logo">LUXE</a>
+
+        <nav id="nav-links" class="nav-links">
+          <a href="index.html">Home</a>
+          <a href="shop.html" class="active">Shop</a>
+          <a href="about.html">About</a>
+          <!-- Mobile-only account controls, shown inside the dropdown
+             menu instead of cluttering the top bar on small screens.
+             Hidden on desktop via CSS; script.js keeps this in sync
+             with the compact desktop version. -->
+          <a
+            href="login.html"
+            id="account-link-mobile"
+            class="mobile-account-link"
+          >
+            <i class="fa-solid fa-user"></i>
+            <span id="account-label-mobile">Login</span>
+          </a>
+          <button
+            id="logout-btn-mobile"
+            type="button"
+            class="mobile-account-link mobile-logout-btn"
+            hidden
+          >
+            <i class="fa-solid fa-right-from-bracket"></i> Logout
+          </button>
+        </nav>
+
+        <div class="nav-right">
+          <button
+            id="dark-mode-toggle"
+            class="icon-btn"
+            type="button"
+            title="Toggle dark mode"
+          >
+            <i class="fa-regular fa-moon" id="dark-mode-icon"></i>
+          </button>
+
+          <!-- Account link: shows "Login" when logged out, or the
+             customer's name + a logout button when logged in.
+             script.js fills this in on every page load. -->
+          <a
+            href="login.html"
+            id="account-link"
+            class="icon-btn account-link"
+            title="Account"
+          >
+            <i class="fa-solid fa-user"></i>
+            <span id="account-label">Login</span>
+          </a>
+
+          <button
+            id="logout-btn"
+            class="icon-btn"
+            type="button"
+            title="Log out"
+            hidden
+          >
+            <i class="fa-solid fa-right-from-bracket"></i>
+          </button>
+
+          <button id="hamburger-btn" class="hamburger-btn" type="button">
+            <i class="fa-solid fa-bars" id="hamburger-icon"></i>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- ===================== PAGE TITLE ===================== -->
+    <section class="shop-header">
+      <h1>Shop All Products</h1>
+      <p>
+        Browse our full collection of bundles, wigs, and hair care essentials.
+      </p>
+    </section>
+
+    <!-- ===================== CONTROLS BAR ===================== -->
+    <section class="controls-bar">
+      <div class="search-wrap">
+        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+        <input
+          type="text"
+          id="search-input"
+          class="search-input"
+          placeholder="Search products..."
+        />
+      </div>
+
+      <select id="category-filter" class="filter-select">
+        <option value="all">All Categories</option>
+        <option value="wigs">Wigs</option>
+        <option value="extensions">Extensions</option>
+        <option value="closures">Closures</option>
+        <option value="care">Hair Care</option>
+        <option value="accessories">Accessories</option>
+      </select>
+
+      <select id="price-filter" class="filter-select">
+        <option value="all">All Prices</option>
+        <option value="under-10000">Under $10,000</option>
+        <option value="10000-40000">$10,000 - $40,000</option>
+        <option value="40000-80000">$40,000 - $80,000</option>
+        <option value="above-80000">Above $80,000</option>
+      </select>
+
+      <select id="sort-select" class="filter-select">
+        <option value="default">Sort By</option>
+        <option value="price-asc">Price: Low to High</option>
+        <option value="price-desc">Price: High to Low</option>
+        <option value="name-asc">Name: A-Z</option>
+      </select>
+    </section>
+
+    <!-- ===================== PRODUCT GRID ===================== -->
+    <!-- Left empty on purpose — shop.js reads from products.js and
+       renders each product card into this container. -->
+    <section class="shop-grid-section">
+      <div id="product-grid" class="product-grid">
+        <!-- Product cards injected here by shop.js -->
+      </div>
+
+      <p id="no-results" class="no-results" hidden>
+        No products match your search. Try a different keyword or filter.
+      </p>
+    </section>
+
+    <!-- ===================== FOOTER ===================== -->
+    <footer class="site-footer">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <span class="logo">LUXE</span>
+          <p>Premium hair, delivered with confidence.</p>
+        </div>
+
+        <div class="footer-links">
+          <h4>Quick Links</h4>
+          <a href="index.html">Home</a>
+          <a href="shop.html">Shop</a>
+          <a href="about.html">About & Contact</a>
+          <a href="cart.html">Cart</a>
+        </div>
+
+        <div class="footer-contact">
+          <h4>Contact</h4>
+          <p>Houston, Texas, USA</p>
+          <p>hello@luxehair.example</p>
+        </div>
+      </div>
+      <p class="footer-copyright">
+        &copy; 2026 LUXE Hair. All rights reserved.
+      </p>
+    </footer>
+
+    <script type="module" src="js/shop.js"></script>
+    <script src="js/script.js"></script>
+
+    <!-- ===================== FLOATING CART BUTTON ===================== -->
+    <!-- Fixed in the corner on every page instead of living inside the
+       nav bar — same id="cart-count" as before, so no JS changes
+       are needed anywhere else in the project. -->
+    <a
+      href="cart.html"
+      id="floating-cart-btn"
+      class="floating-cart-btn"
+      title="View cart"
+    >
+      <i class="fa-solid fa-cart-shopping"></i>
+      <span id="cart-count" class="floating-cart-badge">0</span>
+    </a>
+  </body>
+</html>

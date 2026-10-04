@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Checkout | LUXE Hair</title>
+    <link rel="stylesheet" href="css/checkout.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+  </head>
+  <body>
+    <!-- ===================== HEADER / NAV ===================== -->
+    <header class="site-header">
+      <div class="nav-container">
+        <a href="index.html" class="logo">LUXE</a>
+
+        <nav id="nav-links" class="nav-links">
+          <a href="index.html">Home</a>
+          <a href="shop.html">Shop</a>
+          <a href="about.html">About</a>
+          <!-- Mobile-only account controls, shown inside the dropdown
+             menu instead of cluttering the top bar on small screens.
+             Hidden on desktop via CSS; script.js keeps this in sync
+             with the compact desktop version. -->
+          <a
+            href="login.html"
+            id="account-link-mobile"
+            class="mobile-account-link"
+          >
+            <i class="fa-solid fa-user"></i>
+            <span id="account-label-mobile">Login</span>
+          </a>
+          <button
+            id="logout-btn-mobile"
+            type="button"
+            class="mobile-account-link mobile-logout-btn"
+            hidden
+          >
+            <i class="fa-solid fa-right-from-bracket"></i> Logout
+          </button>
+        </nav>
+
+        <div class="nav-right">
+          <button
+            id="dark-mode-toggle"
+            class="icon-btn"
+            type="button"
+            title="Toggle dark mode"
+          >
+            <i class="fa-regular fa-moon" id="dark-mode-icon"></i>
+          </button>
+
+          <!-- Account link: shows "Login" when logged out, or the
+             customer's name + a logout button when logged in.
+             script.js fills this in on every page load. -->
+          <a
+            href="login.html"
+            id="account-link"
+            class="icon-btn account-link"
+            title="Account"
+          >
+            <i class="fa-solid fa-user"></i>
+            <span id="account-label">Login</span>
+          </a>
+
+          <button
+            id="logout-btn"
+            class="icon-btn"
+            type="button"
+            title="Log out"
+            hidden
+          >
+            <i class="fa-solid fa-right-from-bracket"></i>
+          </button>
+
+          <a href="cart.html" class="icon-btn cart-link" title="View cart">
+            <i class="fa-solid fa-cart-shopping"></i>
+            <span id="cart-count" class="cart-badge">0</span>
+          </a>
+
+          <button id="hamburger-btn" class="hamburger-btn" type="button">
+            <i class="fa-solid fa-bars" id="hamburger-icon"></i>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- ===================== PAGE TITLE ===================== -->
+    <section class="checkout-header">
+      <h1>Checkout</h1>
+    </section>
+
+    <!-- ===================== CHECKOUT FORM STATE ===================== -->
+    <!-- Everything inside #checkout-form-wrap is hidden after a successful
+       order, and #order-success is shown instead. Both start with the
+       correct visibility already set, so there's no flash of the wrong
+       state before checkout.js runs. -->
+    <section class="checkout-layout" id="checkout-form-wrap">
+      <form class="checkout-form" id="checkout-form">
+        <!-- ----- Shipping details ----- -->
+        <div class="form-section">
+          <h2>Shipping Details</h2>
+
+          <label for="full-name">Full Name</label>
+          <input type="text" id="full-name" required />
+          <span class="field-error" id="error-full-name"></span>
+
+          <label for="checkout-email">Email</label>
+          <input type="email" id="checkout-email" required />
+          <span class="field-error" id="error-checkout-email"></span>
+
+          <label for="phone">Phone Number</label>
+          <input type="tel" id="phone" required />
+          <span class="field-error" id="error-phone"></span>
+
+          <label for="address">Delivery Address</label>
+          <textarea id="address" rows="2" required></textarea>
+          <span class="field-error" id="error-address"></span>
+
+          <label for="city">City</label>
+          <input type="text" id="city" required />
+          <span class="field-error" id="error-city"></span>
+        </div>
+
+        <!-- ----- Payment method ----- -->
+        <div class="form-section">
+          <h2>Payment Method</h2>
+
+          <div class="payment-options">
+            <label class="payment-option">
+              <input
+                type="radio"
+                name="payment-method"
+                value="card"
+                id="payment-card"
+                checked
+              />
+              <i class="fa-solid fa-credit-card"></i> Card
+            </label>
+
+            <label class="payment-option">
+              <input
+                type="radio"
+                name="payment-method"
+                value="bank"
+                id="payment-bank"
+              />
+              <i class="fa-solid fa-building-columns"></i> Bank Transfer
+            </label>
+
+            <label class="payment-option">
+              <input
+                type="radio"
+                name="payment-method"
+                value="pod"
+                id="payment-pod"
+              />
+              <i class="fa-solid fa-truck"></i> Pay on Delivery
+            </label>
+          </div>
+
+          <!-- Only one of these three shows at a time — toggled by
+             checkout.js based on which radio button is selected. -->
+          <div id="card-fields" class="payment-detail-fields">
+            <label for="card-name">Name on Card</label>
+            <input type="text" id="card-name" />
+            <span class="field-error" id="error-card-name"></span>
+
+            <label for="card-number">Card Number</label>
+            <input
+              type="text"
+              id="card-number"
+              placeholder="1234 5678 9012 3456"
+              maxlength="19"
+            />
+            <span class="field-error" id="error-card-number"></span>
+
+            <div class="card-row">
+              <div>
+                <label for="card-expiry">Expiry</label>
+                <input
+                  type="text"
+                  id="card-expiry"
+                  placeholder="MM/YY"
+                  maxlength="5"
+                />
+                <span class="field-error" id="error-card-expiry"></span>
+              </div>
+              <div>
+                <label for="card-cvv">CVV</label>
+                <input
+                  type="text"
+                  id="card-cvv"
+                  placeholder="123"
+                  maxlength="3"
+                />
+                <span class="field-error" id="error-card-cvv"></span>
+              </div>
+            </div>
+          </div>
+
+          <div id="bank-details" class="payment-detail-fields" hidden>
+            <p class="bank-info">
+              <strong>Bank:</strong> LUXE Trust Bank<br />
+              <strong>Account Name:</strong> LUXE Hair Ltd<br />
+              <strong>Account Number:</strong> 0123456789
+            </p>
+            <p class="payment-note">
+              Transfer the total amount and your order will be confirmed once
+              payment reflects.
+            </p>
+          </div>
+
+          <div id="pod-note" class="payment-detail-fields" hidden>
+            <p class="payment-note">
+              Pay in cash to the delivery agent when your order arrives.
+            </p>
+          </div>
+        </div>
+
+        <button
+          type="submit"
+          id="place-order-btn"
+          class="btn btn-primary btn-large"
+        >
+          Review Order
+        </button>
+      </form>
+
+      <!-- ----- Order summary (read-only, mirrors cart.js data) ----- -->
+      <aside class="checkout-summary">
+        <h2>Order Summary</h2>
+
+        <div id="checkout-items" class="checkout-items">
+          <!-- Line items injected here by checkout.js -->
+        </div>
+
+        <div class="summary-row">
+          <span>Subtotal</span>
+          <span id="checkout-subtotal">₦0</span>
+        </div>
+
+        <div class="summary-row">
+          <span>Delivery Fee</span>
+          <span id="checkout-delivery-fee">₦0</span>
+        </div>
+
+        <div class="summary-row summary-total">
+          <span>Total</span>
+          <span id="checkout-total">₦0</span>
+        </div>
+      </aside>
+    </section>
+
+    <!-- ===================== ORDER REVIEW ===================== -->
+    <!-- Hidden by default. Shown by checkout.js after the form passes
+       validation, before anything is actually saved. -->
+    <section class="order-review" id="order-review" hidden>
+      <div class="review-card">
+        <h1>Review Your Order</h1>
+
+        <div class="review-block">
+          <h2>Shipping To</h2>
+          <p id="review-shipping"></p>
+        </div>
+
+        <div class="review-block">
+          <h2>Payment Method</h2>
+          <p id="review-payment"></p>
+        </div>
+
+        <div class="review-block">
+          <h2>Items</h2>
+          <div id="review-items" class="checkout-items"></div>
+        </div>
+
+        <div class="summary-row">
+          <span>Subtotal</span>
+          <span id="review-subtotal">₦0</span>
+        </div>
+        <div class="summary-row">
+          <span>Delivery Fee</span>
+          <span id="review-delivery-fee">₦0</span>
+        </div>
+        <div class="summary-row summary-total">
+          <span>Total</span>
+          <span id="review-total">₦0</span>
+        </div>
+
+        <div class="review-actions">
+          <button id="edit-order-btn" class="btn btn-secondary" type="button">
+            <i class="fa-solid fa-arrow-left"></i> Edit Order
+          </button>
+          <button id="confirm-order-btn" class="btn btn-primary" type="button">
+            Confirm Order
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== SUCCESS STATE ===================== -->
+    <!-- Hidden by default. Shown by checkout.js after a successful
+       "order placement" — replaces the form entirely. -->
+    <section class="order-success" id="order-success" hidden>
+      <i class="fa-solid fa-circle-check success-icon"></i>
+      <h1>Order Placed!</h1>
+      <p>Thank you for shopping with LUXE. Your order reference is:</p>
+      <p class="order-number" id="order-number"></p>
+      <p class="success-note">
+        This is a demo checkout — no real payment was processed.
+      </p>
+      <a href="shop.html" class="btn btn-primary">Continue Shopping</a>
+    </section>
+
+    <!-- ===================== FOOTER ===================== -->
+    <footer class="site-footer">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <span class="logo">LUXE</span>
+          <p>Premium hair, delivered with confidence.</p>
+        </div>
+
+        <div class="footer-links">
+          <h4>Quick Links</h4>
+          <a href="index.html">Home</a>
+          <a href="shop.html">Shop</a>
+          <a href="about.html">About & Contact</a>
+          <a href="cart.html">Cart</a>
+        </div>
+
+        <div class="footer-contact">
+          <h4>Contact</h4>
+          <p>Houston, Texas, USA</p>
+          <p>hello@luxehair.example</p>
+        </div>
+      </div>
+      <p class="footer-copyright">
+        &copy; 2026 LUXE Hair. All rights reserved.
+      </p>
+    </footer>
+
+    <script type="module" src="js/checkout.js"></script>
+    <script src="js/script.js"></script>
+  </body>
+</html>

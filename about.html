@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About & Contact | LUXE Hair</title>
+    <link rel="stylesheet" href="css/about.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+  </head>
+  <body>
+    <!-- ===================== HEADER / NAV ===================== -->
+    <header class="site-header">
+      <div class="nav-container">
+        <a href="index.html" class="logo">LUXE</a>
+
+        <nav id="nav-links" class="nav-links">
+          <a href="index.html">Home</a>
+          <a href="shop.html">Shop</a>
+          <a href="about.html" class="active">About</a>
+          <!-- Mobile-only account controls, shown inside the dropdown
+             menu instead of cluttering the top bar on small screens.
+             Hidden on desktop via CSS; script.js keeps this in sync
+             with the compact desktop version. -->
+          <a
+            href="login.html"
+            id="account-link-mobile"
+            class="mobile-account-link"
+          >
+            <i class="fa-solid fa-user"></i>
+            <span id="account-label-mobile">Login</span>
+          </a>
+          <button
+            id="logout-btn-mobile"
+            type="button"
+            class="mobile-account-link mobile-logout-btn"
+            hidden
+          >
+            <i class="fa-solid fa-right-from-bracket"></i> Logout
+          </button>
+        </nav>
+
+        <div class="nav-right">
+          <button
+            id="dark-mode-toggle"
+            class="icon-btn"
+            type="button"
+            title="Toggle dark mode"
+          >
+            <i class="fa-regular fa-moon" id="dark-mode-icon"></i>
+          </button>
+
+          <!-- Account link: shows "Login" when logged out, or the
+             customer's name + a logout button when logged in.
+             script.js fills this in on every page load. -->
+          <a
+            href="login.html"
+            id="account-link"
+            class="icon-btn account-link"
+            title="Account"
+          >
+            <i class="fa-solid fa-user"></i>
+            <span id="account-label">Login</span>
+          </a>
+
+          <button
+            id="logout-btn"
+            class="icon-btn"
+            type="button"
+            title="Log out"
+            hidden
+          >
+            <i class="fa-solid fa-right-from-bracket"></i>
+          </button>
+
+          <button id="hamburger-btn" class="hamburger-btn" type="button">
+            <i class="fa-solid fa-bars" id="hamburger-icon"></i>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- ===================== ABOUT INTRO ===================== -->
+    <!-- Left-aligned, image-paired layout — deliberately different from
+       Home's centered hero, per the section-heading-variety rule. -->
+    <section class="about-intro">
+      <div class="about-intro-text">
+        <span class="eyebrow">Our Story</span>
+        <h1>Built on Quality, Worn with Confidence</h1>
+        <p>
+          LUXE started with a simple frustration: too many hair vendors sell
+          inconsistent quality with no accountability. We set out to change that
+          — sourcing every bundle, closure, and wig ourselves, testing for
+          texture and durability before it ever reaches a customer.
+        </p>
+        <p>
+          Today, LUXE serves customers who want hair that holds up to daily life
+          — not just the first wash.
+        </p>
+      </div>
+      <img
+        src="https://i.pinimg.com/1200x/f8/f7/b6/f8f7b670d8ac6ec6c28f41d0b5ecd180.jpg"
+        alt="About LUXE"
+        class="about-intro-image"
+      />
+    </section>
+
+    <!-- ===================== MISSION POINTS ===================== -->
+    <!-- Numbered list style — visually distinct from Home's icon-card grid. -->
+    <section class="mission">
+      <h2 class="mission-heading">What Drives Us</h2>
+      <ol class="mission-list">
+        <li>
+          <span class="mission-number">01</span>
+          <div>
+            <h3>Sourced, Not Just Sold</h3>
+            <p>
+              We work directly with verified suppliers instead of reselling
+              unknown stock.
+            </p>
+          </div>
+        </li>
+        <li>
+          <span class="mission-number">02</span>
+          <div>
+            <h3>Tested Before Listed</h3>
+            <p>
+              Every new product line is checked for texture, shedding, and
+              tangle resistance.
+            </p>
+          </div>
+        </li>
+        <li>
+          <span class="mission-number">03</span>
+          <div>
+            <h3>Honest Communication</h3>
+            <p>
+              If a product isn't right for you, we'll tell you before you buy —
+              not after.
+            </p>
+          </div>
+        </li>
+      </ol>
+    </section>
+
+    <!-- ===================== CONTACT ===================== -->
+    <section class="contact">
+      <div class="contact-info">
+        <h2>Get in Touch</h2>
+        <p>
+          Questions about an order, a product, or bulk pricing? Reach out — we
+          respond fast.
+        </p>
+
+        <ul class="contact-details">
+          <li><i class="fa-solid fa-location-dot"></i> Houston, Texas, USA</li>
+          <li><i class="fa-solid fa-envelope"></i> hello@luxehair.example</li>
+          <li><i class="fa-solid fa-phone"></i> +1 (713) 555-0142</li>
+        </ul>
+
+        <div class="social-links">
+          <a href="#" class="icon-btn"
+            ><i class="fa-brands fa-instagram"></i
+          ></a>
+          <a href="#" class="icon-btn"><i class="fa-brands fa-whatsapp"></i></a>
+          <a href="#" class="icon-btn"><i class="fa-brands fa-tiktok"></i></a>
+        </div>
+      </div>
+
+      <form id="contact-form" class="contact-form">
+        <p id="contact-success" class="contact-success" hidden>
+          <i class="fa-solid fa-circle-check"></i> Message sent! We'll get back
+          to you soon.
+        </p>
+
+        <label for="contact-name">Name</label>
+        <input type="text" id="contact-name" name="name" required />
+
+        <label for="contact-email">Email</label>
+        <input type="email" id="contact-email" name="email" required />
+
+        <label for="contact-message">Message</label>
+        <textarea
+          id="contact-message"
+          name="message"
+          rows="4"
+          required
+        ></textarea>
+
+        <button type="submit" class="btn btn-primary">Send Message</button>
+      </form>
+    </section>
+
+    <!-- ===================== FOOTER ===================== -->
+    <footer class="site-footer">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <span class="logo">LUXE</span>
+          <p>Premium hair, delivered with confidence.</p>
+        </div>
+
+        <div class="footer-links">
+          <h4>Quick Links</h4>
+          <a href="index.html">Home</a>
+          <a href="shop.html">Shop</a>
+          <a href="about.html">About & Contact</a>
+          <a href="cart.html">Cart</a>
+        </div>
+
+        <div class="footer-contact">
+          <h4>Contact</h4>
+          <p>Houston, Texas, USA</p>
+          <p>hello@luxehair.example</p>
+        </div>
+      </div>
+      <p class="footer-copyright">
+        &copy; 2026 LUXE Hair. All rights reserved.
+      </p>
+    </footer>
+
+    <script src="js/about.js"></script>
+    <script src="js/script.js"></script>
+  </body>
+</html>

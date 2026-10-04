@@ -1,0 +1,766 @@
+/* ============================================================
+   home.css — styles for index.html only
+   This file is self-contained: it includes the base reset,
+   color variables, and shared nav/footer styles that will be
+   repeated (intentionally) in each page's own stylesheet.
+   ============================================================ */
+
+/* ----- Reset ----- */
+/* Removes default browser spacing so layout is predictable
+   across different browsers instead of fighting inconsistent defaults. */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ----- Color palette (sampled from the LUXE logo) ----- */
+/* Using CSS variables means every color is defined once here —
+   if the brand palette changes, we only edit these lines instead
+   of hunting through the whole file. */
+:root {
+  --color-primary: #b98d7a; /* rose-tan — buttons, accents, headings */
+  --color-primary-dark: #9c7362; /* darker rose-tan — hover states */
+  --color-bg: #fdfbf3; /* cream — page background */
+  --color-surface: #ffffff; /* white — cards sit on cream, need contrast */
+  --color-text: #4a3428; /* dark brown — body text, matches logo subtext */
+  --color-text-muted: #7a6355; /* softer brown — secondary text */
+  --color-border: #e8dfd3; /* light warm border, not harsh black */
+  --shadow: 0 4px 12px rgba(74, 52, 40, 0.08);
+  --radius: 10px;
+  /* Dedicated footer colors, independent of --color-text/--color-bg,
+     so the footer stays consistently dark in BOTH light and dark mode
+     instead of flipping to a bright "light mode island" when dark
+     mode is on (which is what happens if it just reuses --color-text). */
+  --color-footer-bg: #4a3428;
+  --color-footer-text: #fdfbf3;
+}
+
+/* Dark mode palette — applied when script.js sets data-theme="dark" on <html> */
+[data-theme="dark"] {
+  --color-bg: #221913;
+  --color-surface: #2f241c;
+  --color-text: #f5ede4;
+  --color-text-muted: #cbb9ab;
+  --color-border: #4a3a2e;
+  --shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  --color-footer-bg: #1a130d;
+  --color-footer-text: #f5ede4;
+}
+
+body {
+  font-family: "Segoe UI", system-ui, sans-serif;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.6;
+  /* Smooth color change when dark mode toggles, instead of an instant jarring flip */
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* ============================================================
+   HEADER / NAV
+   ============================================================ */
+.site-header {
+  background-color: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.nav-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  /* Fixed height (instead of padding-driven auto height) so the
+     dropdown menu below always knows exactly where the header ends —
+     needed since the menu is now fixed-positioned relative to the
+     viewport, not just a normal flow child. */
+  height: 68px;
+  padding: 0 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--color-primary);
+}
+
+/* Nav links are hidden off-canvas by default on mobile.
+   script.js toggles the .open class to slide them into view. */
+/* Dropdown panel — anchored right below the header, collapsed to 0
+   height by default. Opening it grows max-height instead of sliding
+   in from off-screen, so the rest of the page stays visible beneath
+   it (not a full-screen takeover). overflow: hidden clips it cleanly
+   at 0 when closed, box-sizing: border-box (from the global reset)
+   means padding collapses along with it instead of leaving a gap. */
+.nav-links {
+  position: fixed;
+  top: 68px;
+  left: 0;
+  right: 0;
+  width: 100%;
+  max-height: 0;
+  overflow: hidden;
+  background-color: var(--color-footer-bg);
+  z-index: 90;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 1.75rem;
+  padding: 0 2.5rem;
+  transition: max-height 0.35s ease;
+}
+
+.nav-links.open {
+  max-height: 420px;
+  padding: 2.5rem 2.5rem 2rem;
+}
+
+.nav-links a {
+  font-weight: 600;
+  font-size: 1.5rem;
+  color: var(--color-footer-text);
+  text-align: right;
+  opacity: 0.75;
+}
+
+.nav-links a.active,
+.nav-links a:hover {
+  color: var(--color-primary);
+  opacity: 1;
+}
+
+/* Hamburger — three simple lines, no icon library needed */
+.nav-actions,
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+}
+
+.icon-btn {
+  position: relative;
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  color: var(--color-text);
+  cursor: pointer;
+}
+
+/* The account link pairs an icon with a text label ("Login" or the
+   customer's name) — needs its own layout rule since the plain
+   .icon-btn above is just a bare icon button. */
+.account-link {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.account-link i {
+  font-size: 1.1rem;
+}
+
+/* Mobile-only account controls inside the dropdown menu — matches
+   the same large, right-aligned style as Home/Shop/About links. */
+.mobile-account-link {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.6rem;
+  font-weight: 600;
+  font-size: 1.5rem;
+  color: var(--color-footer-text);
+  opacity: 0.75;
+  background: none;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  text-align: right;
+}
+
+.mobile-account-link:hover {
+  color: var(--color-primary);
+  opacity: 1;
+}
+
+/* Hide the compact desktop account icons by default (mobile-first) —
+   the mobile menu version above is what shows on small screens. */
+#account-link,
+#logout-btn {
+  display: none;
+}
+
+.icon-btn:hover {
+  color: var(--color-primary);
+}
+
+.cart-badge {
+  position: absolute;
+  top: -8px;
+  right: -10px;
+  background-color: var(--color-primary);
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Hamburger is now an icon button styled like the others,
+   grouped with dark mode + cart instead of floating alone. */
+.hamburger-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.3rem;
+  color: var(--color-text);
+  padding: 0.2rem;
+}
+
+.hamburger-btn:hover {
+  color: var(--color-primary);
+}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+.eyebrow-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  /* Matches the "Shop Now" button color instead of the old dark-brown
+     background — which was actually --color-text, a variable that
+     flips to light cream in dark mode and made the badge nearly
+     invisible (light background + white text = no contrast). */
+  background-color: var(--color-primary);
+  color: #fff;
+  padding: 0.5rem 1.1rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+}
+
+.badge-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #fff;
+  flex-shrink: 0;
+}
+
+/* Dark mode override: since the badge background now stays the same
+   rose-tan color in both themes (--color-primary isn't overridden by
+   dark mode), white text still reads fine — but per your request,
+   dark mode specifically uses dark brown text/dot instead. */
+[data-theme="dark"] .eyebrow-badge {
+  color: #4a3428;
+}
+
+[data-theme="dark"] .badge-dot {
+  background-color: #4a3428;
+}
+
+.hero-text {
+  max-width: 560px;
+}
+
+.hero-text h1 {
+  font-size: 2rem;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+  color: var(--color-text);
+}
+
+.hero-text p {
+  text-wrap: pretty;
+  color: var(--color-text-muted);
+  margin-bottom: 1.75rem;
+  font-size: 1rem;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.hero-buttons .btn i {
+  font-size: 0.75rem;
+  margin-left: 0.4rem;
+}
+
+.btn-outline {
+  background-color: transparent;
+  color: var(--color-text);
+  border: 1.5px solid var(--color-text);
+}
+
+.btn-outline:hover {
+  background-color: var(--color-text);
+  color: #fff;
+}
+
+/* Three staggered image cards — bottom-aligned as a group, with the
+   middle one taller so it visually extends upward past the other two,
+   matching the reference's offset look without needing any manual
+   positioning tricks. */
+.hero-images {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.9rem;
+}
+
+.hero-image-card {
+  flex: 1;
+  height: 220px;
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+.hero-image-card.tall {
+  height: 280px;
+}
+
+.hero-image-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 25%;
+}
+
+.btn {
+  display: inline-block;
+  padding: 0.8rem 2rem;
+  border-radius: var(--radius);
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.btn-primary {
+  background-color: var(--color-primary);
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background-color: var(--color-primary-dark);
+  transform: translateY(-2px);
+}
+
+/* ============================================================
+   CATEGORY GRID
+   ============================================================ */
+.categories {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem;
+  text-align: center;
+}
+
+.categories h2 {
+  margin-bottom: 2rem;
+  font-size: 1.6rem;
+}
+
+/* Mobile-first: single column LIST, not a grid. Each card is a
+   horizontal row — fixed-size image thumbnail on the left, title on
+   the right — so alignment stays consistent no matter what image
+   dimensions you use later. */
+.category-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.category-card {
+  background-color: var(--color-surface);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  transition: transform 0.2s ease;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.category-card:hover {
+  transform: translateY(-2px);
+}
+
+.category-image {
+  width: 90px;
+  height: 90px;
+  object-fit: cover;
+  /* "top" keeps faces/heads in frame when cropping portrait photos —
+     this is what actually fixes alignment, not the source image size. */
+  object-position: center top;
+  flex-shrink: 0;
+}
+
+.category-card h3 {
+  padding: 0 1rem;
+  font-size: 1rem;
+  text-align: left;
+}
+
+/* ============================================================
+   WHY CHOOSE US
+   ============================================================ */
+.why-us {
+  background-color: var(--color-surface);
+  padding: 3rem 1.5rem;
+  text-align: center;
+}
+
+.why-us h2 {
+  margin-bottom: 2rem;
+  font-size: 1.6rem;
+}
+
+.why-us-grid {
+  max-width: 1000px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 2rem;
+  text-align: left;
+}
+
+.why-us-item h3 {
+  color: var(--color-primary);
+  margin-bottom: 0.5rem;
+}
+
+.why-us-item p {
+  color: var(--color-text-muted);
+  font-size: 0.95rem;
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.site-footer {
+  background-color: var(--color-footer-bg);
+  color: var(--color-footer-text);
+  padding: 3rem 1.5rem 1.5rem;
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.footer-brand .logo {
+  color: var(--color-primary);
+}
+
+.footer-brand p {
+  margin-top: 0.5rem;
+  color: #d8cabf;
+  font-size: 0.9rem;
+}
+
+.footer-links h4,
+.footer-contact h4 {
+  margin-bottom: 0.8rem;
+  font-size: 1rem;
+}
+
+.footer-links a {
+  display: block;
+  color: #d8cabf;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.footer-links a:hover {
+  color: var(--color-primary);
+}
+
+.footer-contact p {
+  color: #d8cabf;
+  font-size: 0.9rem;
+  margin-bottom: 0.4rem;
+}
+
+.footer-copyright {
+  text-align: center;
+  font-size: 0.8rem;
+  color: #a8988c;
+  border-top: 1px solid #5a463a;
+  padding-top: 1.5rem;
+}
+
+/* ============================================================
+   RESPONSIVE BREAKPOINTS
+   ============================================================ */
+
+/* Tablet and up: nav becomes a normal horizontal bar, hamburger hides */
+@media (min-width: 768px) {
+  .hamburger-btn {
+    display: none;
+  }
+
+  .mobile-account-link {
+    display: none;
+  }
+
+  #account-link {
+    display: flex;
+  }
+
+  #logout-btn {
+    display: inline-flex;
+  }
+
+  /* Reset every mobile-only panel style back to a normal horizontal
+     nav bar — otherwise the dark background, large right-aligned text,
+     and centering from the mobile menu would leak into desktop. */
+  .nav-links {
+    position: static;
+    flex-direction: row;
+    max-height: none;
+    overflow: visible;
+    width: auto;
+    background-color: transparent;
+    z-index: auto;
+    align-items: center;
+    padding: 0;
+    gap: 2rem;
+  }
+
+  .nav-links a {
+    font-size: 1rem;
+    color: var(--color-text);
+    opacity: 1;
+  }
+
+  .hero-text p {
+    font-size: 1.1rem;
+  }
+
+  /* Tablet+: side-by-side instead of stacked, text left-aligned */
+  .hero {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 3rem;
+    padding-top: 3.5rem;
+    padding-bottom: 3.5rem;
+  }
+
+  .hero-text {
+    flex: 1;
+  }
+
+  .hero-images {
+    flex: 1;
+  }
+
+  .hero-image-card {
+    height: 260px;
+  }
+
+  .hero-image-card.tall {
+    height: 340px;
+  }
+
+  /* Tablet+: switch from mobile list to a polished tile grid — larger
+     image tiles with the title overlaid on a gradient at the bottom,
+     instead of a separate text bar. A subtle zoom on hover adds a bit
+     of life without needing any extra markup. */
+  .category-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.75rem;
+  }
+
+  .category-card {
+    position: relative;
+    flex-direction: column;
+  }
+
+  .category-card:hover {
+    /* Overrides the mobile lift-on-hover with a slightly stronger one,
+       since these tiles are bigger and can take more movement. */
+    transform: translateY(-6px);
+  }
+
+  .category-image {
+    width: 100%;
+    height: 260px;
+    transition: transform 0.5s ease;
+  }
+
+  .category-card:hover .category-image {
+    transform: scale(1.07);
+  }
+
+  .category-card h3 {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: 0;
+    padding: 1.5rem 1.25rem 1.1rem;
+    text-align: left;
+    font-size: 1.15rem;
+    color: #fff;
+    /* Gradient instead of a flat background so the tile edge still
+       reads as part of the photo rather than a separate bar. */
+    background: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.68) 0%,
+      rgba(0, 0, 0, 0.25) 65%,
+      rgba(0, 0, 0, 0) 100%
+    );
+  }
+}
+
+/* Desktop: larger heading */
+@media (min-width: 1024px) {
+  .hero-text h1 {
+    font-size: 2.75rem;
+  }
+
+  .hero-image-card {
+    height: 320px;
+  }
+
+  .hero-image-card.tall {
+    height: 400px;
+  }
+
+  .categories h2,
+  .why-us h2 {
+    font-size: 2rem;
+  }
+}
+
+/* ============================================================
+   FLOATING CART BUTTON
+   Pulled out of the nav bar entirely via position: fixed — this is
+   what makes it "not part of the navbar" without touching any HTML.
+   Same circular floating pattern used by many real e-commerce sites.
+   ============================================================ */
+.cart-link {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 56px;
+  height: 56px;
+  background-color: var(--color-primary);
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+  /* Higher than the header (100) and mobile dropdown (90), so the
+     floating button always stays on top of everything else. */
+  z-index: 200;
+  transition: transform 0.2s ease;
+}
+
+/* This page's HTML uses different class names than the other pages
+   (floating-cart-btn / floating-cart-badge instead of cart-link /
+   cart-badge) — same exact styles, just matching the real markup
+   that's actually here. */
+.floating-cart-btn {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 56px;
+  height: 56px;
+  background-color: var(--color-primary);
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+  z-index: 200;
+  transition: transform 0.2s ease;
+  text-decoration: none;
+}
+
+.floating-cart-btn:hover {
+  transform: scale(1.08);
+  color: #fff;
+}
+
+.floating-cart-badge {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  background-color: #fff;
+  color: var(--color-primary);
+  border: 2px solid var(--color-primary);
+  font-size: 0.7rem;
+  font-weight: 700;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cart-link:hover {
+  transform: scale(1.08);
+  color: #fff;
+}
+
+/* The badge needs its own contrasting colors here — the default
+   badge style is the same primary color as the button itself, which
+   would make the count invisible against a matching background. */
+.cart-link .cart-badge {
+  top: -2px;
+  right: -2px;
+  background-color: #fff;
+  color: var(--color-primary);
+  border: 2px solid var(--color-primary);
+}

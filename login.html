@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Log In | LUXE Hair</title>
+    <link rel="stylesheet" href="css/login.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+  </head>
+  <body>
+    <!-- ===================== HEADER / NAV ===================== -->
+    <header class="site-header">
+      <div class="nav-container">
+        <a href="index.html" class="logo">LUXE</a>
+      </div>
+    </header>
+
+    <!-- ===================== LOGIN FORM ===================== -->
+    <section class="auth-page">
+      <form class="auth-box" id="login-form">
+        <h1>Welcome Back</h1>
+        <p class="auth-subtitle">Log in to continue.</p>
+
+        <label for="login-email">Email</label>
+        <input type="email" id="login-email" required />
+        <span class="field-error" id="error-login-email"></span>
+
+        <label for="login-password">Password</label>
+        <input type="password" id="login-password" required />
+        <span class="field-error" id="error-login-password"></span>
+
+        <p id="login-form-error" class="form-level-error" hidden></p>
+
+        <button type="submit" class="btn btn-primary btn-large">Log In</button>
+
+        <p class="auth-switch">
+          Don't have an account? <a href="register.html">Create one</a>
+        </p>
+      </form>
+    </section>
+
+    <script src="js/login.js"></script>
+  </body>
+</html>

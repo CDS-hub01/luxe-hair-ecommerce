@@ -1,0 +1,629 @@
+/* ============================================================
+   about.css — styles for about.html only
+   ============================================================ */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --color-primary: #b98d7a;
+  --color-primary-dark: #9c7362;
+  --color-bg: #fdfbf3;
+  --color-surface: #ffffff;
+  --color-text: #4a3428;
+  --color-text-muted: #7a6355;
+  --color-border: #e8dfd3;
+  --shadow: 0 4px 12px rgba(74, 52, 40, 0.08);
+  --radius: 10px;
+  /* Dedicated footer colors, independent of --color-text/--color-bg,
+     so the footer stays consistently dark in BOTH light and dark mode
+     instead of flipping to a bright "light mode island" when dark
+     mode is on (which is what happens if it just reuses --color-text). */
+  --color-footer-bg: #4a3428;
+  --color-footer-text: #fdfbf3;
+}
+
+[data-theme='dark'] {
+  --color-bg: #221913;
+  --color-surface: #2f241c;
+  --color-text: #f5ede4;
+  --color-text-muted: #cbb9ab;
+  --color-border: #4a3a2e;
+  --shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  --color-footer-bg: #1a130d;
+  --color-footer-text: #f5ede4;
+}
+
+body {
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.6;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* ============================================================
+   HEADER / NAV
+   ============================================================ */
+.site-header {
+  background-color: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.nav-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  /* Fixed height (instead of padding-driven auto height) so the
+     dropdown menu below always knows exactly where the header ends —
+     needed since the menu is now fixed-positioned relative to the
+     viewport, not just a normal flow child. */
+  height: 68px;
+  padding: 0 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--color-primary);
+}
+
+/* Dropdown panel — anchored right below the header, collapsed to 0
+   height by default. Opening it grows max-height instead of sliding
+   in from off-screen, so the rest of the page stays visible beneath
+   it (not a full-screen takeover). overflow: hidden clips it cleanly
+   at 0 when closed, box-sizing: border-box (from the global reset)
+   means padding collapses along with it instead of leaving a gap. */
+.nav-links {
+  position: fixed;
+  top: 68px;
+  left: 0;
+  right: 0;
+  width: 100%;
+  max-height: 0;
+  overflow: hidden;
+  background-color: var(--color-footer-bg);
+  z-index: 90;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 1.75rem;
+  padding: 0 2.5rem;
+  transition: max-height 0.35s ease;
+}
+
+.nav-links.open {
+  max-height: 420px;
+  padding: 2.5rem 2.5rem 2rem;
+}
+
+.nav-links a {
+  font-weight: 600;
+  font-size: 1.5rem;
+  color: var(--color-footer-text);
+  text-align: right;
+  opacity: 0.75;
+}
+
+.nav-links a.active,
+.nav-links a:hover {
+  color: var(--color-primary);
+  opacity: 1;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+}
+
+.icon-btn {
+  position: relative;
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  color: var(--color-text);
+  cursor: pointer;
+}
+
+/* The account link pairs an icon with a text label ("Login" or the
+   customer's name) — needs its own layout rule since the plain
+   .icon-btn above is just a bare icon button. */
+.account-link {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.account-link i {
+  font-size: 1.1rem;
+}
+
+/* Mobile-only account controls inside the dropdown menu — matches
+   the same large, right-aligned style as Home/Shop/About links. */
+.mobile-account-link {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.6rem;
+  font-weight: 600;
+  font-size: 1.5rem;
+  color: var(--color-footer-text);
+  opacity: 0.75;
+  background: none;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  text-align: right;
+}
+
+.mobile-account-link:hover {
+  color: var(--color-primary);
+  opacity: 1;
+}
+
+/* Hide the compact desktop account icons by default (mobile-first) —
+   the mobile menu version above is what shows on small screens. */
+#account-link,
+#logout-btn {
+  display: none;
+}
+
+.icon-btn:hover {
+  color: var(--color-primary);
+}
+
+.cart-badge {
+  position: absolute;
+  top: -8px;
+  right: -10px;
+  background-color: var(--color-primary);
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hamburger-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.3rem;
+  color: var(--color-text);
+  padding: 0.2rem;
+}
+
+.hamburger-btn:hover {
+  color: var(--color-primary);
+}
+
+/* ============================================================
+   ABOUT INTRO — image beside left-aligned text
+   ============================================================ */
+.about-intro {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  align-items: center;
+}
+
+.eyebrow {
+  display: inline-block;
+  color: var(--color-primary);
+  font-weight: 700;
+  font-size: 0.8rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 0.6rem;
+}
+
+.about-intro-text h1 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  line-height: 1.3;
+}
+
+.about-intro-text p {
+  color: var(--color-text-muted);
+  margin-bottom: 1rem;
+}
+
+.about-intro-image {
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  width: 100%;
+  height: 260px;
+  object-fit: cover;
+  /* Keeps faces/heads in frame when cropping — same fix used across
+     the rest of the site for consistency. */
+  object-position: center 20%;
+  order: -1;
+}
+
+/* ============================================================
+   MISSION — numbered list, intentionally different style from
+   Home's icon-card grid, per the section-variety rule.
+   ============================================================ */
+.mission {
+  background-color: var(--color-surface);
+  padding: 3rem 1.5rem;
+}
+
+.mission-heading {
+  max-width: 900px;
+  margin: 0 auto 2rem;
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+.mission-list {
+  max-width: 700px;
+  margin: 0 auto;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+.mission-list li {
+  display: flex;
+  gap: 1.25rem;
+  align-items: flex-start;
+}
+
+.mission-number {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--color-border);
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.mission-list h3 {
+  font-size: 1.05rem;
+  margin-bottom: 0.3rem;
+  color: var(--color-primary);
+}
+
+.mission-list p {
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+}
+
+/* ============================================================
+   CONTACT — two columns on desktop, stacked on mobile
+   ============================================================ */
+.contact {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.5rem;
+}
+
+.contact-info h2 {
+  font-size: 1.5rem;
+  margin-bottom: 0.8rem;
+}
+
+.contact-info p {
+  color: var(--color-text-muted);
+  margin-bottom: 1.5rem;
+}
+
+.contact-details {
+  list-style: none;
+  margin-bottom: 1.5rem;
+}
+
+.contact-details li {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-bottom: 0.9rem;
+  font-size: 0.95rem;
+}
+
+.contact-details i {
+  color: var(--color-primary);
+  width: 18px;
+}
+
+.social-links {
+  display: flex;
+  gap: 1rem;
+}
+
+.social-links .icon-btn {
+  font-size: 1.3rem;
+}
+
+.contact-form {
+  background-color: var(--color-surface);
+  padding: 1.75rem;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+}
+
+.contact-form label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+  margin-top: 0.9rem;
+}
+
+/* :first-of-type instead of :first-child, since the success banner
+   (a <p>) now sits before the first label — first-child would no
+   longer correctly target the label itself. */
+.contact-form label:first-of-type {
+  margin-top: 0;
+}
+
+.contact-success {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  background-color: #e4f2e4;
+  color: #2e7d32;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.8rem 1rem;
+  border-radius: var(--radius);
+  margin-bottom: 0.5rem;
+}
+
+/* Without this, our own "display: flex" above overrides the browser's
+   built-in [hidden] { display: none; } rule at equal specificity —
+   which is exactly why the banner was showing regardless of the JS.
+   Targeting both the class AND [hidden] together gives this higher
+   specificity, so it correctly wins and hides the element again. */
+.contact-success[hidden] {
+  display: none;
+}
+
+.contact-form input,
+.contact-form textarea {
+  padding: 0.7rem 0.9rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: inherit;
+  font-size: 0.9rem;
+  resize: vertical;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 1px;
+}
+
+.btn {
+  display: inline-block;
+  padding: 0.7rem 1.4rem;
+  border-radius: var(--radius);
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  text-align: center;
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.btn-primary {
+  background-color: var(--color-primary);
+  color: #fff;
+  margin-top: 1.2rem;
+}
+
+.btn-primary:hover {
+  background-color: var(--color-primary-dark);
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.site-footer {
+  background-color: var(--color-footer-bg);
+  color: var(--color-footer-text);
+  padding: 3rem 1.5rem 1.5rem;
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.footer-brand .logo {
+  color: var(--color-primary);
+}
+
+.footer-brand p {
+  margin-top: 0.5rem;
+  color: #d8cabf;
+  font-size: 0.9rem;
+}
+
+.footer-links h4,
+.footer-contact h4 {
+  margin-bottom: 0.8rem;
+  font-size: 1rem;
+}
+
+.footer-links a {
+  display: block;
+  color: #d8cabf;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.footer-links a:hover {
+  color: var(--color-primary);
+}
+
+.footer-contact p {
+  color: #d8cabf;
+  font-size: 0.9rem;
+  margin-bottom: 0.4rem;
+}
+
+.footer-copyright {
+  text-align: center;
+  font-size: 0.8rem;
+  color: #a8988c;
+  border-top: 1px solid #5a463a;
+  padding-top: 1.5rem;
+}
+
+/* ============================================================
+   RESPONSIVE BREAKPOINTS
+   ============================================================ */
+@media (min-width: 768px) {
+  .hamburger-btn {
+    display: none;
+  }
+
+  .mobile-account-link {
+    display: none;
+  }
+
+  #account-link {
+    display: flex;
+  }
+
+  #logout-btn {
+    display: inline-flex;
+  }
+
+  /* Reset every mobile-only panel style back to a normal horizontal
+     nav bar — otherwise the dark background, large right-aligned text,
+     and centering from the mobile menu would leak into desktop. */
+  .nav-links {
+    position: static;
+    flex-direction: row;
+    max-height: none;
+    overflow: visible;
+    width: auto;
+    background-color: transparent;
+    z-index: auto;
+    align-items: center;
+    padding: 0;
+    gap: 2rem;
+  }
+
+  .nav-links a {
+    font-size: 1rem;
+    color: var(--color-text);
+    opacity: 1;
+  }
+
+  .about-intro {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .about-intro-image {
+    height: 360px;
+    order: 0;
+  }
+
+  .mission-list li {
+    align-items: center;
+  }
+
+  .contact {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (min-width: 1024px) {
+  .about-intro-text h1 {
+    font-size: 2.4rem;
+  }
+
+  .about-intro-image {
+    height: 420px;
+  }
+}
+
+/* ============================================================
+   FLOATING CART BUTTON
+   Pulled out of the nav bar entirely via position: fixed — this is
+   what makes it "not part of the navbar" without touching any HTML.
+   Same circular floating pattern used by many real e-commerce sites.
+   ============================================================ */
+.cart-link {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 56px;
+  height: 56px;
+  background-color: var(--color-primary);
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+  /* Higher than the header (100) and mobile dropdown (90), so the
+     floating button always stays on top of everything else. */
+  z-index: 200;
+  transition: transform 0.2s ease;
+}
+
+.cart-link:hover {
+  transform: scale(1.08);
+  color: #fff;
+}
+
+/* The badge needs its own contrasting colors here — the default
+   badge style is the same primary color as the button itself, which
+   would make the count invisible against a matching background. */
+.cart-link .cart-badge {
+  top: -2px;
+  right: -2px;
+  background-color: #fff;
+  color: var(--color-primary);
+  border: 2px solid var(--color-primary);
+}

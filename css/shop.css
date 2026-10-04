@@ -1,0 +1,579 @@
+/* ============================================================
+   shop.css — styles for shop.html only
+   Base reset, color variables, and nav/footer styles are repeated
+   here intentionally (per the separate-stylesheet-per-page choice).
+   ============================================================ */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --color-primary: #b98d7a;
+  --color-primary-dark: #9c7362;
+  --color-bg: #fdfbf3;
+  --color-surface: #ffffff;
+  --color-text: #4a3428;
+  --color-text-muted: #7a6355;
+  --color-border: #e8dfd3;
+  --shadow: 0 4px 12px rgba(74, 52, 40, 0.08);
+  --radius: 10px;
+  /* Dedicated footer colors, independent of --color-text/--color-bg,
+     so the footer stays consistently dark in BOTH light and dark mode
+     instead of flipping to a bright "light mode island" when dark
+     mode is on (which is what happens if it just reuses --color-text). */
+  --color-footer-bg: #4a3428;
+  --color-footer-text: #fdfbf3;
+}
+
+[data-theme="dark"] {
+  --color-bg: #221913;
+  --color-surface: #2f241c;
+  --color-text: #f5ede4;
+  --color-text-muted: #cbb9ab;
+  --color-border: #4a3a2e;
+  --shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  --color-footer-bg: #1a130d;
+  --color-footer-text: #f5ede4;
+}
+
+body {
+  font-family: "Segoe UI", system-ui, sans-serif;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.6;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* ============================================================
+   HEADER / NAV (same structure/behavior as home.css)
+   ============================================================ */
+.site-header {
+  background-color: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.nav-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  /* Fixed height (instead of padding-driven auto height) so the
+     dropdown menu below always knows exactly where the header ends —
+     needed since the menu is now fixed-positioned relative to the
+     viewport, not just a normal flow child. */
+  height: 68px;
+  padding: 0 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--color-primary);
+}
+
+/* Dropdown panel — anchored right below the header, collapsed to 0
+   height by default. Opening it grows max-height instead of sliding
+   in from off-screen, so the rest of the page stays visible beneath
+   it (not a full-screen takeover). overflow: hidden clips it cleanly
+   at 0 when closed, box-sizing: border-box (from the global reset)
+   means padding collapses along with it instead of leaving a gap. */
+.nav-links {
+  position: fixed;
+  top: 68px;
+  left: 0;
+  right: 0;
+  width: 100%;
+  max-height: 0;
+  overflow: hidden;
+  background-color: var(--color-footer-bg);
+  z-index: 90;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 1.75rem;
+  padding: 0 2.5rem;
+  transition: max-height 0.35s ease;
+}
+
+.nav-links.open {
+  max-height: 420px;
+  padding: 2.5rem 2.5rem 2rem;
+}
+
+.nav-links a {
+  font-weight: 600;
+  font-size: 1.5rem;
+  color: var(--color-footer-text);
+  text-align: right;
+  opacity: 0.75;
+}
+
+.nav-links a.active,
+.nav-links a:hover {
+  color: var(--color-primary);
+  opacity: 1;
+}
+
+.nav-actions,
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+}
+
+.icon-btn {
+  position: relative;
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  color: var(--color-text);
+  cursor: pointer;
+}
+
+/* The account link pairs an icon with a text label ("Login" or the
+   customer's name) — needs its own layout rule since the plain
+   .icon-btn above is just a bare icon button. */
+.account-link {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.account-link i {
+  font-size: 1.1rem;
+}
+
+/* Mobile-only account controls inside the dropdown menu — matches
+   the same large, right-aligned style as Home/Shop/About links. */
+.mobile-account-link {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.6rem;
+  font-weight: 600;
+  font-size: 1.5rem;
+  color: var(--color-footer-text);
+  opacity: 0.75;
+  background: none;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  text-align: right;
+}
+
+.mobile-account-link:hover {
+  color: var(--color-primary);
+  opacity: 1;
+}
+
+/* Hide the compact desktop account icons by default (mobile-first) —
+   the mobile menu version above is what shows on small screens. */
+#account-link,
+#logout-btn {
+  display: none;
+}
+
+.icon-btn:hover {
+  color: var(--color-primary);
+}
+
+.cart-badge {
+  position: absolute;
+  top: -8px;
+  right: -10px;
+  background-color: var(--color-primary);
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hamburger-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.3rem;
+  color: var(--color-text);
+  padding: 0.2rem;
+}
+
+.hamburger-btn:hover {
+  color: var(--color-primary);
+}
+
+/* ============================================================
+   SHOP PAGE TITLE
+   ============================================================ */
+.shop-header {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 1rem;
+  text-align: center;
+}
+
+.shop-header h1 {
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+}
+
+.shop-header p {
+  color: var(--color-text-muted);
+}
+
+/* ============================================================
+   CONTROLS BAR — search, category filter, sort
+   ============================================================ */
+.controls-bar {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+}
+
+.search-wrap {
+  position: relative;
+  flex-grow: 1;
+}
+
+.search-icon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  pointer-events: none;
+}
+
+.search-input,
+.filter-select {
+  padding: 0.7rem 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  font-size: 0.95rem;
+  font-family: inherit;
+}
+
+.search-input {
+  padding-left: 2.6rem;
+  width: 100%;
+}
+
+.search-input:focus,
+.filter-select:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 1px;
+}
+
+/* ============================================================
+   PRODUCT GRID
+   ============================================================ */
+.shop-grid-section {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem 3rem;
+}
+
+/* auto-fit + minmax again — same reasoning as the category grid on
+   Home: the browser works out how many columns fit, so this one rule
+   handles every screen size instead of a media query per breakpoint. */
+/* Explicit column counts per breakpoint instead of auto-fit — auto-fit
+   decides column count based on exact pixel width, which can collapse
+   to 1 column on some phones. A fixed repeat(2, 1fr) guarantees 2
+   columns on every mobile device, regardless of exact screen width. */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.product-card {
+  background-color: var(--color-surface);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-4px);
+}
+
+.product-card img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+}
+
+.product-card-body {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.product-card-body h3 {
+  font-size: 1rem;
+  margin-bottom: 0.4rem;
+}
+
+.product-price {
+  color: var(--color-primary);
+  font-weight: 700;
+  margin-bottom: 0.8rem;
+}
+
+.product-card-body .btn {
+  margin-top: auto;
+}
+
+.out-of-stock-badge {
+  display: inline-block;
+  background-color: #c94f4f;
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  margin-bottom: 0.5rem;
+  width: fit-content;
+}
+
+.btn {
+  display: inline-block;
+  padding: 0.6rem 1.2rem;
+  border-radius: var(--radius);
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  text-align: center;
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.btn-primary {
+  background-color: var(--color-primary);
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background-color: var(--color-primary-dark);
+}
+
+.btn-primary:disabled {
+  background-color: var(--color-border);
+  cursor: not-allowed;
+}
+
+.no-results {
+  text-align: center;
+  color: var(--color-text-muted);
+  padding: 2rem 0;
+}
+
+/* ============================================================
+   FOOTER (same as home.css)
+   ============================================================ */
+.site-footer {
+  background-color: var(--color-footer-bg);
+  color: var(--color-footer-text);
+  padding: 3rem 1.5rem 1.5rem;
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.footer-brand .logo {
+  color: var(--color-primary);
+}
+
+.footer-brand p {
+  margin-top: 0.5rem;
+  color: #d8cabf;
+  font-size: 0.9rem;
+}
+
+.footer-links h4,
+.footer-contact h4 {
+  margin-bottom: 0.8rem;
+  font-size: 1rem;
+}
+
+.footer-links a {
+  display: block;
+  color: #d8cabf;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.footer-links a:hover {
+  color: var(--color-primary);
+}
+
+.footer-contact p {
+  color: #d8cabf;
+  font-size: 0.9rem;
+  margin-bottom: 0.4rem;
+}
+
+.footer-copyright {
+  text-align: center;
+  font-size: 0.8rem;
+  color: #a8988c;
+  border-top: 1px solid #5a463a;
+  padding-top: 1.5rem;
+}
+
+/* ============================================================
+   RESPONSIVE BREAKPOINTS
+   ============================================================ */
+@media (min-width: 768px) {
+  .hamburger-btn {
+    display: none;
+  }
+
+  .mobile-account-link {
+    display: none;
+  }
+
+  #account-link {
+    display: flex;
+  }
+
+  #logout-btn {
+    display: inline-flex;
+  }
+
+  /* Reset every mobile-only panel style back to a normal horizontal
+     nav bar — otherwise the dark background, large right-aligned text,
+     and centering from the mobile menu would leak into desktop. */
+  .nav-links {
+    position: static;
+    flex-direction: row;
+    max-height: none;
+    overflow: visible;
+    width: auto;
+    background-color: transparent;
+    z-index: auto;
+    align-items: center;
+    padding: 0;
+    gap: 2rem;
+  }
+
+  .nav-links a {
+    font-size: 1rem;
+    color: var(--color-text);
+    opacity: 1;
+  }
+
+  .controls-bar {
+    flex-direction: row;
+  }
+
+  .search-wrap {
+    flex-grow: 1;
+  }
+
+  .filter-select {
+    min-width: 180px;
+  }
+
+  .product-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .shop-header h1 {
+    font-size: 2.2rem;
+  }
+
+  .product-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* ============================================================
+   FLOATING CART BUTTON
+   Pulled out of the nav bar entirely via position: fixed — this is
+   what makes it "not part of the navbar" without touching any HTML.
+   Same circular floating pattern used by many real e-commerce sites.
+   ============================================================ */
+.cart-link {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 56px;
+  height: 56px;
+  background-color: var(--color-primary);
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+  /* Higher than the header (100) and mobile dropdown (90), so the
+     floating button always stays on top of everything else. */
+  z-index: 200;
+  transition: transform 0.2s ease;
+}
+
+.cart-link:hover {
+  transform: scale(1.08);
+  color: #fff;
+}
+
+/* The badge needs its own contrasting colors here — the default
+   badge style is the same primary color as the button itself, which
+   would make the count invisible against a matching background. */
+.cart-link .cart-badge {
+  top: -2px;
+  right: -2px;
+  background-color: #fff;
+  color: var(--color-primary);
+  border: 2px solid var(--color-primary);
+}

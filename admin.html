@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin | LUXE Hair</title>
+    <link rel="stylesheet" href="css/admin.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+  </head>
+  <body>
+    <!-- ===================== LOGIN GATE ===================== -->
+    <!-- Shown by default. admin.js hides this and reveals #admin-dashboard
+       once the correct password is entered. This is a DEMO-ONLY lock —
+       not real security, since the password lives in plain JS anyone
+       could view. Good enough to keep the page from being obviously
+       public, not good enough for real customer data. -->
+    <section class="login-gate" id="login-gate">
+      <form class="login-box" id="login-form">
+        <span class="logo">LUXE <span class="admin-tag">Admin</span></span>
+        <p class="login-subtitle">Enter the admin password to continue.</p>
+
+        <input
+          type="password"
+          id="password-input"
+          placeholder="Password"
+          required
+        />
+
+        <p id="login-error" class="login-error" hidden>
+          Incorrect password. Try again.
+        </p>
+
+        <button type="submit" class="btn btn-primary btn-large">Log In</button>
+      </form>
+    </section>
+
+    <!-- ===================== ADMIN DASHBOARD ===================== -->
+    <!-- Hidden until login succeeds. -->
+    <div id="admin-dashboard" hidden>
+      <header class="admin-header">
+        <span class="logo">LUXE <span class="admin-tag">Admin</span></span>
+        <button id="logout-btn" class="btn-logout" type="button">
+          <i class="fa-solid fa-right-from-bracket"></i> Log Out
+        </button>
+      </header>
+
+      <main class="admin-main">
+        <!-- ----- Stats overview ----- -->
+        <section class="stats-row">
+          <div class="stat-card">
+            <span class="stat-label">Total Orders</span>
+            <span class="stat-value" id="stat-orders">0</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">Total Messages</span>
+            <span class="stat-value" id="stat-messages">0</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">Total Revenue</span>
+            <span class="stat-value" id="stat-revenue">$0</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">Total Products</span>
+            <span class="stat-value" id="stat-products">0</span>
+          </div>
+        </section>
+
+        <!-- ----- Tabs ----- -->
+        <div class="admin-tabs">
+          <button
+            class="tab-btn active"
+            id="tab-orders-btn"
+            type="button"
+            data-tab="orders"
+          >
+            <i class="fa-solid fa-bag-shopping"></i> Orders
+          </button>
+          <button
+            class="tab-btn"
+            id="tab-messages-btn"
+            type="button"
+            data-tab="messages"
+          >
+            <i class="fa-solid fa-envelope"></i> Messages
+          </button>
+          <button
+            class="tab-btn"
+            id="tab-products-btn"
+            type="button"
+            data-tab="products"
+          >
+            <i class="fa-solid fa-box"></i> Products
+          </button>
+        </div>
+
+        <!-- ----- Orders tab ----- -->
+        <section id="orders-tab" class="tab-panel">
+          <p id="orders-empty" class="empty-state" hidden>
+            <i class="fa-solid fa-inbox"></i> No orders yet.
+          </p>
+          <div id="orders-list" class="entries-list">
+            <!-- Order cards injected by admin.js -->
+          </div>
+        </section>
+
+        <!-- ----- Messages tab ----- -->
+        <section id="messages-tab" class="tab-panel" hidden>
+          <p id="messages-empty" class="empty-state" hidden>
+            <i class="fa-solid fa-inbox"></i> No messages yet.
+          </p>
+          <div id="messages-list" class="entries-list">
+            <!-- Message cards injected by admin.js -->
+          </div>
+        </section>
+
+        <!-- ----- Products tab ----- -->
+        <section id="products-tab" class="tab-panel" hidden>
+          <form id="add-product-form" class="add-product-form">
+            <h2>Add New Product</h2>
+
+            <label for="product-name">Product Name</label>
+            <input type="text" id="product-name" required />
+
+            <label for="product-category">Category</label>
+            <select id="product-category" required>
+              <option value="">Select a category</option>
+              <option value="wigs">Wigs</option>
+              <option value="extensions">Extensions</option>
+              <option value="closures">Closures</option>
+              <option value="care">Hair Care</option>
+              <option value="accessories">Accessories</option>
+            </select>
+
+            <label for="product-price">Price ($)</label>
+            <input type="number" id="product-price" min="1" required />
+
+            <label>Product Image</label>
+            <div class="image-upload-box" id="image-upload-box">
+              <input
+                type="file"
+                id="product-image-input"
+                accept="image/png, image/jpeg, image/gif"
+                hidden
+              />
+
+              <div id="image-upload-placeholder" class="upload-placeholder">
+                <div class="upload-icon-wrap">
+                  <i class="fa-regular fa-image"></i>
+                </div>
+                <p class="upload-title">Upload Image</p>
+                <p class="upload-subtitle">PNG, JPG, GIF up to 4MB</p>
+                <button
+                  type="button"
+                  id="select-image-btn"
+                  class="btn-select-image"
+                >
+                  Select Image
+                </button>
+              </div>
+
+              <div id="image-preview-wrap" class="image-preview-wrap" hidden>
+                <img id="image-preview" alt="Selected product image" />
+                <button
+                  type="button"
+                  id="change-image-btn"
+                  class="btn-change-image"
+                >
+                  Change Image
+                </button>
+              </div>
+            </div>
+            <span class="field-error" id="error-product-image"></span>
+
+            <label for="product-description">Description</label>
+            <textarea id="product-description" rows="3" required></textarea>
+
+            <label class="checkbox-label">
+              <input type="checkbox" id="product-instock" checked />
+              In stock
+            </label>
+
+            <button type="submit" class="btn btn-primary btn-large">
+              Add Product
+            </button>
+          </form>
+
+          <h2 class="products-list-heading">Your Added Products</h2>
+          <p id="products-empty" class="empty-state" hidden>
+            <i class="fa-solid fa-box-open"></i> You haven't added any products
+            yet.
+          </p>
+          <div id="products-list" class="entries-list">
+            <!-- Custom product cards injected by admin.js -->
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script type="module" src="js/admin.js"></script>
+  </body>
+</html>

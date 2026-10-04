@@ -1,0 +1,172 @@
+/* ============================================================
+   register.css — styles for register.html only
+   ============================================================ */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --color-primary: #b98d7a;
+  --color-primary-dark: #9c7362;
+  --color-bg: #fdfbf3;
+  --color-surface: #ffffff;
+  --color-text: #4a3428;
+  --color-text-muted: #7a6355;
+  --color-border: #e8dfd3;
+  --shadow: 0 4px 12px rgba(74, 52, 40, 0.08);
+  --radius: 10px;
+}
+
+body {
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.6;
+}
+
+a {
+  text-decoration: none;
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+/* ----- Simple header, just the logo, no nav needed on auth pages ----- */
+.site-header {
+  background-color: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  padding: 1rem 1.5rem;
+}
+
+.nav-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--color-primary);
+}
+
+/* ----- Centered auth card ----- */
+.auth-page {
+  min-height: calc(100vh - 66px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1.5rem;
+}
+
+.auth-box {
+  background-color: var(--color-surface);
+  padding: 2.5rem 2rem;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  width: 100%;
+  max-width: 400px;
+}
+
+.auth-box h1 {
+  font-size: 1.4rem;
+  margin-bottom: 0.4rem;
+  text-align: center;
+}
+
+.auth-subtitle {
+  color: var(--color-text-muted);
+  font-size: 0.85rem;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.auth-box label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+  margin-top: 1rem;
+}
+
+.auth-box label:first-of-type {
+  margin-top: 0;
+}
+
+.auth-box input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: inherit;
+  font-size: 0.9rem;
+}
+
+.auth-box input:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 1px;
+}
+
+.auth-box input.input-error {
+  border-color: #c94f4f;
+}
+
+.auth-box input.input-valid {
+  border-color: #2e7d32;
+}
+
+.field-error {
+  display: none;
+  color: #c94f4f;
+  font-size: 0.75rem;
+  margin-top: 0.35rem;
+}
+
+.field-error.show {
+  display: block;
+}
+
+.form-level-error {
+  background-color: #fbe4e4;
+  color: #c94f4f;
+  font-size: 0.85rem;
+  padding: 0.7rem 1rem;
+  border-radius: var(--radius);
+  margin-top: 1.2rem;
+}
+
+.btn {
+  display: inline-block;
+  padding: 0.75rem 1.4rem;
+  border-radius: var(--radius);
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  text-align: center;
+}
+
+.btn-primary {
+  background-color: var(--color-primary);
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background-color: var(--color-primary-dark);
+}
+
+.btn-large {
+  width: 100%;
+  font-size: 0.95rem;
+  margin-top: 1.5rem;
+}
+
+.auth-switch {
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  margin-top: 1.25rem;
+}

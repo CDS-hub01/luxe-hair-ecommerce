@@ -1,0 +1,562 @@
+/* ============================================================
+   admin.css — styles for admin.html only
+   ============================================================ */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --color-primary: #b98d7a;
+  --color-primary-dark: #9c7362;
+  --color-bg: #fdfbf3;
+  --color-surface: #ffffff;
+  --color-text: #4a3428;
+  --color-text-muted: #7a6355;
+  --color-border: #e8dfd3;
+  --shadow: 0 4px 12px rgba(74, 52, 40, 0.08);
+  --radius: 10px;
+}
+
+body {
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.6;
+}
+
+.logo {
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: var(--color-primary);
+}
+
+.admin-tag {
+  font-size: 0.75rem;
+  font-weight: 700;
+  background-color: var(--color-primary);
+  color: #fff;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  letter-spacing: 0.5px;
+  vertical-align: middle;
+}
+
+.btn {
+  display: inline-block;
+  padding: 0.7rem 1.4rem;
+  border-radius: var(--radius);
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  text-align: center;
+}
+
+.btn-primary {
+  background-color: var(--color-primary);
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background-color: var(--color-primary-dark);
+}
+
+.btn-large {
+  width: 100%;
+  font-size: 1rem;
+}
+
+/* ============================================================
+   LOGIN GATE
+   ============================================================ */
+.login-gate {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+/* Without this, our own "display: flex" above overrides the browser's
+   built-in [hidden] { display: none; } rule at equal specificity —
+   which is exactly why the login screen kept taking up a full 100vh
+   of space even after JS set loginGate.hidden = true, pushing the
+   real dashboard content down and forcing you to scroll to see it. */
+.login-gate[hidden] {
+  display: none;
+}
+
+.login-box {
+  background-color: var(--color-surface);
+  padding: 2.5rem 2rem;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  width: 100%;
+  max-width: 340px;
+  text-align: center;
+}
+
+.login-box .logo {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.login-subtitle {
+  color: var(--color-text-muted);
+  font-size: 0.85rem;
+  margin-bottom: 1.5rem;
+}
+
+.login-box input {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  font-family: inherit;
+  font-size: 0.95rem;
+  margin-bottom: 1rem;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+}
+
+.login-box input:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 1px;
+}
+
+.login-error {
+  color: #c94f4f;
+  font-size: 0.8rem;
+  margin-bottom: 1rem;
+}
+
+/* ============================================================
+   ADMIN HEADER
+   ============================================================ */
+.admin-header {
+  background-color: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.btn-logout {
+  background: none;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 0.5rem 1rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  cursor: pointer;
+}
+
+.btn-logout:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+/* ============================================================
+   MAIN CONTENT
+   ============================================================ */
+.admin-main {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+/* ----- Stats ----- */
+.stats-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin-bottom: 1.75rem;
+}
+
+.stat-card {
+  background-color: var(--color-surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.stat-label {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  font-weight: 600;
+}
+
+.stat-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+/* ----- Tabs ----- */
+.admin-tabs {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.tab-btn {
+  background: none;
+  border: none;
+  padding: 0.8rem 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.tab-btn.active {
+  color: var(--color-primary);
+  border-bottom-color: var(--color-primary);
+}
+
+/* ----- Empty state ----- */
+.empty-state {
+  text-align: center;
+  color: var(--color-text-muted);
+  padding: 3rem 1rem;
+  background-color: var(--color-surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.empty-state i {
+  display: block;
+  font-size: 1.8rem;
+  margin-bottom: 0.6rem;
+  color: var(--color-border);
+}
+
+/* ----- Entry cards (orders + messages share this style) ----- */
+.entries-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.entry-card {
+  background-color: var(--color-surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1.25rem;
+}
+
+.entry-card.handled {
+  opacity: 0.6;
+}
+
+.entry-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+  flex-wrap: wrap;
+}
+
+/* This is the customer's NAME — deliberately the most prominent piece
+   of text in the card so it's the first thing an admin sees. */
+.entry-name {
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.entry-meta {
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+}
+
+.entry-badge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  background-color: var(--color-border);
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+.entry-badge.handled-badge {
+  background-color: #e4f2e4;
+  color: #2e7d32;
+}
+
+.entry-details {
+  font-size: 0.88rem;
+  color: var(--color-text-muted);
+  margin-bottom: 0.9rem;
+  line-height: 1.7;
+}
+
+.entry-details strong {
+  color: var(--color-text);
+}
+
+.entry-items {
+  background-color: var(--color-bg);
+  border-radius: var(--radius);
+  padding: 0.8rem 1rem;
+  margin-bottom: 0.9rem;
+  font-size: 0.85rem;
+}
+
+.entry-item-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.2rem 0;
+}
+
+.entry-total {
+  font-weight: 700;
+  color: var(--color-text);
+  border-top: 1px solid var(--color-border);
+  margin-top: 0.4rem;
+  padding-top: 0.4rem;
+}
+
+.entry-message-text {
+  background-color: var(--color-bg);
+  border-radius: var(--radius);
+  padding: 0.8rem 1rem;
+  margin-bottom: 0.9rem;
+  font-size: 0.88rem;
+  font-style: italic;
+}
+
+.entry-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.entry-actions button {
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.5rem 0.9rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.entry-actions .reply-btn {
+  background-color: var(--color-primary);
+  color: #fff;
+  border-color: var(--color-primary);
+}
+
+.entry-actions .reply-btn:hover {
+  background-color: var(--color-primary-dark);
+}
+
+.entry-actions .handle-btn:hover {
+  border-color: #2e7d32;
+  color: #2e7d32;
+}
+
+.entry-actions .delete-btn:hover {
+  border-color: #c94f4f;
+  color: #c94f4f;
+}
+
+/* ----- Add Product form ----- */
+.add-product-form {
+  background-color: var(--color-surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.5rem;
+}
+
+.add-product-form h2 {
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+}
+
+.add-product-form label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+  margin-top: 0.9rem;
+}
+
+.add-product-form label:first-of-type {
+  margin-top: 0;
+}
+
+.add-product-form input,
+.add-product-form select,
+.add-product-form textarea {
+  padding: 0.7rem 0.9rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: inherit;
+  font-size: 0.9rem;
+  resize: vertical;
+}
+
+.add-product-form input:focus,
+.add-product-form select:focus,
+.add-product-form textarea:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 1px;
+}
+
+.checkbox-label {
+  display: flex !important;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600 !important;
+}
+
+/* ----- Image upload box ----- */
+.image-upload-box {
+  border: 2px dashed var(--color-border);
+  border-radius: var(--radius);
+  padding: 2rem 1.5rem;
+  text-align: center;
+  background-color: var(--color-bg);
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.image-upload-box.drag-over {
+  border-color: var(--color-primary);
+  background-color: #f5ede6;
+}
+
+.upload-icon-wrap {
+  width: 56px;
+  height: 56px;
+  background-color: var(--color-border);
+  border-radius: 12px;
+  margin: 0 auto 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.upload-icon-wrap i {
+  font-size: 1.5rem;
+  color: var(--color-text-muted);
+  /* Overrides any vertical-align Font Awesome's own CSS sets on the
+     icon itself, which can fight against the flex centering above. */
+  vertical-align: 0;
+  line-height: 1;
+}
+
+.upload-title {
+  font-weight: 700;
+  font-size: 0.95rem;
+  margin-bottom: 0.25rem;
+}
+
+.upload-subtitle {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  margin-bottom: 1.2rem;
+}
+
+.btn-select-image,
+.btn-change-image {
+  background-color: var(--color-text);
+  color: #fff;
+  border: none;
+  padding: 0.6rem 1.3rem;
+  border-radius: var(--radius);
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.btn-select-image:hover,
+.btn-change-image:hover {
+  background-color: #2c221b;
+}
+
+.image-preview-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Without this, the "display: flex" above overrides the browser's
+   built-in [hidden] { display: none; } rule — the same recurring
+   pattern we've hit before. This is what makes the preview box
+   actually disappear when nothing has been selected yet. */
+.image-preview-wrap[hidden] {
+  display: none;
+}
+
+.image-preview-wrap img {
+  display: block;
+  max-width: 100%;
+  max-height: 180px;
+  border-radius: var(--radius);
+  margin: 0 auto 1rem;
+  object-fit: contain;
+}
+
+.checkbox-label input {
+  width: auto !important;
+  accent-color: var(--color-primary);
+}
+
+.add-product-form .btn-large {
+  margin-top: 1.5rem;
+}
+
+.products-list-heading {
+  font-size: 1.05rem;
+  margin-bottom: 1rem;
+}
+
+.entry-product-image {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: var(--radius);
+  flex-shrink: 0;
+}
+
+.entry-product-top {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (min-width: 640px) {
+  .stats-row {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

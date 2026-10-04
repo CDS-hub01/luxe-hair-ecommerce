@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Product | LUXE Hair</title>
+    <link rel="stylesheet" href="css/product.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+  </head>
+  <body>
+    <!-- ===================== HEADER / NAV ===================== -->
+    <header class="site-header">
+      <div class="nav-container">
+        <a href="index.html" class="logo">LUXE</a>
+
+        <nav id="nav-links" class="nav-links">
+          <a href="index.html">Home</a>
+          <a href="shop.html" class="active">Shop</a>
+          <a href="about.html">About</a>
+          <!-- Mobile-only account controls, shown inside the dropdown
+             menu instead of cluttering the top bar on small screens.
+             Hidden on desktop via CSS; script.js keeps this in sync
+             with the compact desktop version. -->
+          <a
+            href="login.html"
+            id="account-link-mobile"
+            class="mobile-account-link"
+          >
+            <i class="fa-solid fa-user"></i>
+            <span id="account-label-mobile">Login</span>
+          </a>
+          <button
+            id="logout-btn-mobile"
+            type="button"
+            class="mobile-account-link mobile-logout-btn"
+            hidden
+          >
+            <i class="fa-solid fa-right-from-bracket"></i> Logout
+          </button>
+        </nav>
+
+        <div class="nav-right">
+          <button
+            id="dark-mode-toggle"
+            class="icon-btn"
+            type="button"
+            title="Toggle dark mode"
+          >
+            <i class="fa-regular fa-moon" id="dark-mode-icon"></i>
+          </button>
+
+          <!-- Account link: shows "Login" when logged out, or the
+             customer's name + a logout button when logged in.
+             script.js fills this in on every page load. -->
+          <a
+            href="login.html"
+            id="account-link"
+            class="icon-btn account-link"
+            title="Account"
+          >
+            <i class="fa-solid fa-user"></i>
+            <span id="account-label">Login</span>
+          </a>
+
+          <button
+            id="logout-btn"
+            class="icon-btn"
+            type="button"
+            title="Log out"
+            hidden
+          >
+            <i class="fa-solid fa-right-from-bracket"></i>
+          </button>
+
+          <a href="cart.html" class="icon-btn cart-link" title="View cart">
+            <i class="fa-solid fa-cart-shopping"></i>
+            <span id="cart-count" class="cart-badge">0</span>
+          </a>
+
+          <button id="hamburger-btn" class="hamburger-btn" type="button">
+            <i class="fa-solid fa-bars" id="hamburger-icon"></i>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- ===================== BREADCRUMB ===================== -->
+    <nav class="breadcrumb">
+      <a href="index.html">Home</a>
+      <span>/</span>
+      <a href="shop.html">Shop</a>
+      <span>/</span>
+      <span id="breadcrumb-product-name">Product</span>
+    </nav>
+
+    <!-- ===================== PRODUCT DETAIL ===================== -->
+    <!-- All content below is filled in dynamically by product.js, which
+       reads the ?id= value from the URL and looks up the matching
+       product from products.js. The HTML just provides empty containers. -->
+    <section class="product-detail">
+      <div class="product-image-wrap">
+        <img id="product-image" src="" alt="Product image" />
+      </div>
+
+      <div class="product-info">
+        <span id="product-category" class="product-category-tag"></span>
+        <h1 id="product-name">Loading product...</h1>
+        <p id="product-price" class="product-detail-price"></p>
+        <span id="product-stock" class="stock-badge"></span>
+        <p id="product-description" class="product-description"></p>
+
+        <div class="quantity-row">
+          <label for="quantity-input">Quantity</label>
+          <div class="quantity-stepper">
+            <button id="decrease-qty-btn" type="button">−</button>
+            <input type="number" id="quantity-input" value="1" min="1" />
+            <button id="increase-qty-btn" type="button">+</button>
+          </div>
+        </div>
+
+        <button
+          id="add-to-cart-btn"
+          class="btn btn-primary btn-large"
+          type="button"
+        >
+          <i class="fa-solid fa-cart-shopping"></i> Add to Cart
+        </button>
+
+        <a href="shop.html" class="back-to-shop">
+          <i class="fa-solid fa-arrow-left"></i> Back to Shop
+        </a>
+      </div>
+    </section>
+
+    <!-- ===================== RELATED PRODUCTS ===================== -->
+    <section class="related-section">
+      <h2>You Might Also Like</h2>
+      <div id="related-products" class="related-grid">
+        <!-- Related product cards injected here by product.js -->
+      </div>
+    </section>
+
+    <!-- ===================== FOOTER ===================== -->
+    <footer class="site-footer">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <span class="logo">LUXE</span>
+          <p>Premium hair, delivered with confidence.</p>
+        </div>
+
+        <div class="footer-links">
+          <h4>Quick Links</h4>
+          <a href="index.html">Home</a>
+          <a href="shop.html">Shop</a>
+          <a href="about.html">About & Contact</a>
+          <a href="cart.html">Cart</a>
+        </div>
+
+        <div class="footer-contact">
+          <h4>Contact</h4>
+          <p>Houston, Texas, USA</p>
+          <p>hello@luxehair.example</p>
+        </div>
+      </div>
+      <p class="footer-copyright">
+        &copy; 2026 LUXE Hair. All rights reserved.
+      </p>
+    </footer>
+
+    <script type="module" src="js/product.js"></script>
+    <script src="js/script.js"></script>
+  </body>
+</html>
